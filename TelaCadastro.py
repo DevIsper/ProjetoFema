@@ -28,6 +28,7 @@ if initchoice == 1:
             if result:
                 ra_db, senha_db = result
                 
+                # if de entrada positiva
                 if ra == ra_db and senha == senha_db:
                     cursor.execute(f"SELECT nome FROM alunos WHERE ra = {ra}")
                     nome = cursor.fetchone()
@@ -38,19 +39,27 @@ if initchoice == 1:
                     logchoice = int(input("Digite 1 para conferir suas matérias e 2 para sair: "))
                     
                     if logchoice == 1:
+
+                        # Realizando a consulta do curso do aluno dentro da DB
                         cursor.execute(f"SELECT curso FROM alunos WHERE ra = {ra}")
                         curso_aluno = cursor.fetchall()
-                        cformatado = '\n'.join(map(str, curso_aluno[0]))
+                        cformatado = ''.join(map(str, curso_aluno[0]))
 
+                        # Selecionando as matérias do curso, baseando-se na consulta acima
                         cursor.execute(f"SELECT materia1, materia2, materia3, materia4, materia5, materia6, materia7 FROM cursos WHERE nome_curso = '{cformatado}'")
                         materias = cursor.fetchone()
 
-                        mformatadas = ''.join(map(str, materias[0]))
-                        print("Suas matérias são: ", mformatadas)
+                        # Printando as materias de maneira organizada e limpa para o usuário
+                        print("Suas matérias são: ")
+                        for materia in materias:
+                            mformatada = '\n'.join(map(str, materias[0]))
+                            print(mformatada)
 
+                        # Finalizando
                         print(f"Seja bem vindo a FEMA {nomeformatado}! Finalizando conexão.")
                         fimloop1 = 1
 
+                    # IF 
                     elif logchoice == 2:
                         print("Finalizando.")
                         conn.close()
@@ -60,9 +69,11 @@ if initchoice == 1:
                         print("Comando inválido, finalizando.")
                         conn.close()
                         fimloop1 = 1
-            
-            else:
-                print("RA ou senha inválidos!")
+
+                # Entrada negativa
+                else:
+                    print("RA ou senha inválidos!")
+
 
         # Tratamento de Erros
         except sqlite3.Error as error:
