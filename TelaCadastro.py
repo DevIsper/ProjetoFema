@@ -86,7 +86,22 @@ elif initchoice == 2:
     # Coleta de Dados
     cdra = int(input("Digite seu RA: "))
     cdsenha = str(input("Digite sua senha: "))
-    cdnome = str(input("Digite seu nome completo: "))
-    cdcurso = str(input("Digite o curso em que faz parte"))
+    cdnome = str(input("Digite seu nome completo: ").title())
 
+    # Declaração das Variáveis
+    conn = sqlite3.connect("FemaDB.db")
+    cursor = conn.cursor()
     
+    # Solicitação na DB de cursos disponiveis
+    cursor.execute("SELECT nome_curso FROM cursos")
+    cursosdb = cursor.fetchall()
+    conn.close()
+
+    # Apresentando os cursos e solicitando escolha
+    print("Os cursos disponíveis são: ")
+    cdbformatados = '\n'.join(map(str, cursosdb[0]))
+    print(cdbformatados)
+
+    cdcurso = str(input("\nDigite o nome do curso que faz parte: ").upper())
+
+    print(cdra, cdsenha, cdnome, cdcurso)
