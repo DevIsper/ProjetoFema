@@ -138,7 +138,7 @@ elif initchoice == 3:
 
             # Verificação de Segurança
             if consultadb:
-                cra_db, csenha_db, cnome_db, ccurso_db = consultadb
+                cra_db, csenha_db, cnome_db, ccurso_db = consultadb[0]
 
                 if conra == cra_db and consenha == csenha_db and connome == cnome_db:
                     print("Consulta realizada com sucesso!\n")
@@ -150,6 +150,7 @@ elif initchoice == 3:
                     # Escolha: Sair
                     if delchoice == 1:
                         print("Entendido, finalizando o programa.")
+                        conn.close()
                         fimloop1 = 1
                     
                     # Escolha: Deletar
@@ -158,7 +159,17 @@ elif initchoice == 3:
 
                         # Lógica de remoção de usuário
                         try:
-                            cursor.execute(f"ALTER TABLE alunos DELETE * WHERE ra = {conra}")
+                            cursor.execute(f"DELETE FROM alunos WHERE ra = {conra}")
+                            conn.commit()
+
+                            if cursor.rowcount > 0:
+                                print("Usuário deletado com sucesso!")
+                                conn.close()
+                                fimloop1 = 1
+                                
+                            
+                            else:
+                                print("Ocorreu um erro.")
 
 
                         # Tratamento de Erros
@@ -172,5 +183,4 @@ elif initchoice == 3:
         # Tratamento de Erros
         except sqlite3.Error as error:
             print("Ocorreu um erro: ", error)
-
 
