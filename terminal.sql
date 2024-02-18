@@ -30,13 +30,13 @@
 -- );
 
 -- INSERT INTO alunos (ra, senha, nome, curso)
--- VALUES (1, 'teste', 'Gabriel Isper', 'BCC');
+-- VALUES (3, 'teste', 'Pedro', 'ADS');
 
 -- INSERT INTO cursos (nome_curso, materia1, materia2, materia3, materia4, materia5, materia6, materia7)
 -- VALUES ('BCC', 'Algoritmos e Estruturas de Dados', 'Introdução a Lógica', 'Estatística', 'Matematica 1', 'Introdução a Computação', 'Matematica Discreta', 'Inglês Técnico');
 
 
 -- SELECT * FROM cursos;
-SELECT * FROM alunos;
+-- SELECT * FROM alunos;
 
 

@@ -110,7 +110,7 @@ elif initchoice == 2:
         conn.close()
 
         # Fim do cadastro
-        print(f"Olá {cdnome[0]}, você está registrado no curso de {cdcurso} na FEMA! Não esqueça de fazer login e conferir suas matérias.")
+        print(f"Olá {cdnome}, você está registrado no curso de {cdcurso} na FEMA! Não esqueça de fazer login e conferir suas matérias.")
 
     except sqlite3.Error as error:
         print("Ocorreu um erro: ", error)
