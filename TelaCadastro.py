@@ -47,7 +47,7 @@ if initchoice == 1:
 
                         # Selecionando as matérias do curso, baseando-se na consulta acima
                         cursor.execute(f"SELECT materia1, materia2, materia3, materia4, materia5, materia6, materia7 FROM cursos WHERE nome_curso = '{cformatado}'")
-                        materias = cursor.fetchone()
+                        materias = cursor.fetchall()
 
                         # Printando as materias de maneira organizada e limpa para o usuário
                         print("Suas matérias são: ")
@@ -56,7 +56,7 @@ if initchoice == 1:
                             print(mformatada)
 
                         # Finalizando
-                        print(f"Seja bem vindo a FEMA {nomeformatado}! Finalizando conexão.")
+                        print(f"\nSeja bem vindo a FEMA {nomeformatado}! Finalizando conexão.")
                         fimloop1 = 1
 
                     # IF 
