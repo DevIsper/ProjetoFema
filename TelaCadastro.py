@@ -2,11 +2,10 @@ import sqlite3
 
 # Declaração de Variáveis
 fimloop1 = 0
-fimloop2 = 0
 
 # Início do Programa
 print("Olá, bem vindo a tela de login da FEMA!")
-initchoice = int(input("Digite 1 para fazer login e 2 para se cadastrar: "))
+initchoice = int(input("Digite 1 para fazer login, 2 para se cadastrar e 3 para consultar um usuário: "))
 
 # Início da Lógica do Login
 if initchoice == 1:
@@ -108,9 +107,70 @@ elif initchoice == 2:
         # Inserindo na DB os valores obtidos
         cursor.execute("INSERT INTO alunos(ra, senha, nome, curso) VALUES (?, ?, ?, ?)", (cdra, cdsenha, cdnome, cdcurso))
         conn.commit()
+        conn.close()
 
         # Fim do cadastro
         print(f"Olá {cdnome[0]}, você está registrado no curso de {cdcurso} na FEMA! Não esqueça de fazer login e conferir suas matérias.")
 
     except sqlite3.Error as error:
         print("Ocorreu um erro: ", error)
+
+# Início da Lógica de Consulta
+elif initchoice == 3:
+    print("Você escolheu consultar um usuário. Preencha os campos abaixo.")
+
+    # Coleta de Dados
+    conra = int(input("Digite o RA do usuário a ser consultado: "))
+    consenha = str(input("Digite a senha do usuário a ser consultado: "))
+    connome = str(input("Digite o nome do usuário a ser consultado: "))
+    
+    # Início das consultas na DB
+    while fimloop1 == 0:
+        try:
+
+            # Declaração das Variáveis
+            conn = sqlite3.connect("FemaDB.db")
+            cursor = conn.cursor()
+
+            # Consulta na DB
+            cursor.execute(f"SELECT * FROM alunos WHERE ra = {conra}")
+            consultadb = cursor.fetchall()
+
+            # Verificação de Segurança
+            if consultadb:
+                cra_db, csenha_db, cnome_db, ccurso_db = consultadb
+
+                if conra == cra_db and consenha == csenha_db and connome == cnome_db:
+                    print("Consulta realizada com sucesso!\n")
+                    print(f"Nome: {cnome_db}\nRA: {cra_db}\nSenha: {csenha_db}\nCurso: {ccurso_db}\n")
+                    
+                    # Escolha deletar ou sair
+                    delchoice = int(input("Digite 1 para sair e 2 para excluir o usuário: "))
+                    
+                    # Escolha: Sair
+                    if delchoice == 1:
+                        print("Entendido, finalizando o programa.")
+                        fimloop1 = 1
+                    
+                    # Escolha: Deletar
+                    elif delchoice == 2:
+                        print("Entendido, deletando o usuário.")
+
+                        # Lógica de remoção de usuário
+                        try:
+                            cursor.execute(f"ALTER TABLE alunos DELETE * WHERE ra = {conra}")
+
+
+                        # Tratamento de Erros
+                        except sqlite3.Error as error:
+                            print("Ocorreu um erro: ", error)
+                        
+                
+                else:
+                    print("Comando inválido! Tente novamente.")
+        
+        # Tratamento de Erros
+        except sqlite3.Error as error:
+            print("Ocorreu um erro: ", error)
+
+
