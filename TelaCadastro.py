@@ -78,3 +78,15 @@ if initchoice == 1:
         # Tratamento de Erros
         except sqlite3.Error as error:
             print("Ocorreu um erro: ", error)
+
+
+elif initchoice == 2:
+    print("Você escolheu se cadastrar, então preencha os campos abaixo: ")
+
+    # Coleta de Dados
+    cdra = int(input("Digite seu RA: "))
+    cdsenha = str(input("Digite sua senha: "))
+    cdnome = str(input("Digite seu nome completo: "))
+    cdcurso = str(input("Digite o curso em que faz parte"))
+
+    
