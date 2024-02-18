@@ -79,7 +79,7 @@ if initchoice == 1:
         except sqlite3.Error as error:
             print("Ocorreu um erro: ", error)
 
-
+# Início da Lógica de Cadastro
 elif initchoice == 2:
     print("Você escolheu se cadastrar, então preencha os campos abaixo: ")
 
@@ -88,20 +88,29 @@ elif initchoice == 2:
     cdsenha = str(input("Digite sua senha: "))
     cdnome = str(input("Digite seu nome completo: ").title())
 
-    # Declaração das Variáveis
-    conn = sqlite3.connect("FemaDB.db")
-    cursor = conn.cursor()
-    
-    # Solicitação na DB de cursos disponiveis
-    cursor.execute("SELECT nome_curso FROM cursos")
-    cursosdb = cursor.fetchall()
-    conn.close()
+    # Início das consultas na DB
+    try:
 
-    # Apresentando os cursos e solicitando escolha
-    print("Os cursos disponíveis são: ")
-    cdbformatados = '\n'.join(map(str, cursosdb[0]))
-    print(cdbformatados)
+        # Declaração das Variáveis
+        conn = sqlite3.connect("FemaDB.db")
+        cursor = conn.cursor()
+        
+        # Solicitação na DB de cursos disponiveis
+        cursor.execute("SELECT nome_curso FROM cursos")
+        cursosdb = cursor.fetchall()
 
-    cdcurso = str(input("\nDigite o nome do curso que faz parte: ").upper())
+        # Apresentando os cursos e solicitando escolha
+        print("Os cursos disponíveis são: ")
+        cdbformatados = '\n'.join(map(str, cursosdb[0]))
+        print(cdbformatados)
+        cdcurso = str(input("\nDigite o nome do curso que faz parte: ").upper())
 
-    print(cdra, cdsenha, cdnome, cdcurso)
+        # Inserindo na DB os valores obtidos
+        cursor.execute("INSERT INTO alunos(ra, senha, nome, curso) VALUES (?, ?, ?, ?)", (cdra, cdsenha, cdnome, cdcurso))
+        conn.commit()
+
+        # Fim do cadastro
+        print(f"Olá {cdnome[0]}, você está registrado no curso de {cdcurso} na FEMA! Não esqueça de fazer login e conferir suas matérias.")
+
+    except sqlite3.Error as error:
+        print("Ocorreu um erro: ", error)
