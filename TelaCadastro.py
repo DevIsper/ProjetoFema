@@ -70,9 +70,9 @@ if initchoice == 1:
                         conn.close()
                         fimloop1 = 1
 
-                # Entrada negativa
-                else:
-                    print("RA ou senha inválidos!")
+            # Entrada negativa
+            else:
+                print("RA ou senha inválidos. Tente novamente!")
 
 
         # Tratamento de Erros
